@@ -31,22 +31,6 @@ Section ADEQUACY.
   Variable state_step:
     Perms.t -> MachineEvent.t -> SeqState.t lang_src -> SeqState.t lang_src -> Prop.
 
-  Definition lang_read_value (lang: language): Prop :=
-    (<<READ: forall loc val ord st1 st2 val'
-               (STEP: lang.(Language.step) (ProgramEvent.read loc val ord) st1 st2),
-        (<<READ': exists st2',
-            lang.(Language.step) (ProgramEvent.read loc val' ord) st1 st2'>>) \/
-        (<<UPDATE': exists valw ordw st2',
-            lang.(Language.step) (ProgramEvent.update loc val' valw ord ordw) st1 st2'>>)>>) /\
-    (<<UPDATE: forall loc valr valw ordr ordw st1 st2 valr'
-               (STEP: lang.(Language.step) (ProgramEvent.update loc valr valw ordr ordw) st1 st2),
-        (<<READ': exists st2',
-            lang.(Language.step) (ProgramEvent.read loc valr' ordr) st1 st2'>>) \/
-        (<<UPDATE': exists valw' st2',
-            lang.(Language.step) (ProgramEvent.update loc valr' valw' ordr ordw) st1 st2'>>)>>).
-
-  Hypothesis lang_read_value_src: lang_read_value lang_src.
-
   Hypothesis state_step_subset: state_step <4= (@SeqState.na_step _).
 
   Hypothesis state_step_determ:
