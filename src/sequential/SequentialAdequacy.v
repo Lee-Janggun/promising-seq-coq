@@ -17,6 +17,8 @@ Require Import DelayedAdequacy.
 Require Import NALoc.
 Require Import SeqLiftSim.
 Require Import Sequential.
+Require Import SequentialBehavior.
+Require Import SequentialRefinement.
 Require Import Program.
 
 Set Implicit Arguments.
@@ -105,5 +107,32 @@ Section ADEQUACY.
     { ii. rewrite IdentMap.gsspec in FIND. des_ifs; eauto.
       dependent destruction H0. auto.
     }
+  Qed.
+
+  Theorem sequential_refinement_adequacy_concurrent_context
+          (ctx: Threads.syntax) (tid: Ident.t)
+          (lang_src: language) (prog_src: lang_src.(Language.syntax))
+          (lang_tgt: language) (prog_tgt: lang_tgt.(Language.syntax))
+          (REFINE: SeqBehavior.refine _ _ (lang_tgt.(Language.init) prog_tgt) (lang_src.(Language.init) prog_src))
+          (DETERM: deterministic _ (lang_src.(Language.init) prog_src))
+          (RECEPTIVE: receptive _ (lang_tgt.(Language.init) prog_tgt))
+          (WF: well_formed_state lang_src (lang_src.(Language.init) prog_src))
+          (NOMIX_SRC: nomix loc_na loc_at _ (lang_src.(Language.init) prog_src))
+          (NOMIX_TGT: nomix loc_na loc_at _ (lang_tgt.(Language.init) prog_tgt))
+          (NOMIX_CTX:
+             forall tid lang syn
+                    (FIND: IdentMap.find tid ctx = Some (existT _ lang syn)),
+               nomix loc_na loc_at lang (lang.(Language.init) syn))
+    :
+      behaviors
+        Configuration.step
+        (Configuration.init (IdentMap.add tid (existT _ lang_tgt prog_tgt) ctx))
+      <2=
+      behaviors
+        Configuration.step
+        (Configuration.init (IdentMap.add tid (existT _ lang_src prog_src) ctx)).
+  Proof.
+    eapply sequential_adequacy_concurrent_context; eauto.
+    esplits. eapply refinement_implies_simulation; eauto.
   Qed.
 End ADEQUACY.

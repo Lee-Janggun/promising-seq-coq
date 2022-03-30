@@ -35,6 +35,7 @@ Section ADEQUACY.
 
   Hypothesis state_step_determ:
     forall p st e0 e1 st0 st1
+           (DETERM: deterministic _ (SeqState.state st))
            (STEP0: state_step p e0 st st0)
            (STEP1: state_step p e1 st st1),
       e0 = e1 /\ st0 = st1.
@@ -941,7 +942,7 @@ Section ADEQUACY.
     SeqBehavior.behavior state_step (SeqThread.mk st2 p orc) (tr, r).
   Proof.
     inv BEH; ss.
-    - inv STEP0. exploit state_step_determ; [exact STEP|exact STEP1|]. i. des. subst. ss.
+    - inv STEP0. exploit state_step_determ; [eauto|exact STEP|exact STEP1|]. i. des. subst. ss.
     - inv STEP0. exploit state_step_subset; eauto. intros x. inv x.
       punfold DETERM. inv DETERM.
       exploit STEP_STEP; [exact LANG|exact LANG0|]. i. des.
@@ -975,9 +976,9 @@ Section ADEQUACY.
   Proof.
     inv BEH; ss.
     - inv FAILURE. inv H.
-      exploit state_step_determ; [exact STEP|exact STEP0|]. i. des. ss.
+      exploit state_step_determ; [|exact STEP|exact STEP0|]; ss. i. des. ss.
     - inv STEP0.
-      exploit state_step_determ; [exact STEP|exact STEP1|]. i. des. subst. ss.
+      exploit state_step_determ; [|exact STEP|exact STEP1|]; ss. i. des. subst. ss.
     - inv STEP0. exploit state_step_subset; eauto. intros x. inv x.
       punfold DETERM. inv DETERM.
       exploit STEP_STEP; [exact LANG|exact LANG0|]. i. des.
@@ -1503,7 +1504,7 @@ Section ADEQUACY.
       inv LOCAL; ss; try destruct ord; ss.
     }
     inv BEH; ss.
-    { inv STEP. exploit state_step_determ; [exact H|exact STEP0|]. intros x0. des. subst.
+    { inv STEP. exploit state_step_determ; [|exact H|exact STEP0|]; ss. intros x0. des. subst.
       exploit IHNASTEPS; eauto.
       exploit state_step_subset; eauto. intros x1. inv x1. ss.
       eapply step_deterministic; eauto.
@@ -1552,7 +1553,7 @@ Section ADEQUACY.
       exploit deterministic_step; [|exact LANG|exact LANG0|]; eauto. i. des.
       destruct e'; inv LOCAL; ss; inv x0; ss; des; subst;
         try destruct ord; try destruct ord0; ss.
-    - exploit state_step_determ; [exact H|exact H0|..]. i. des. subst. ss.
+    - exploit state_step_determ; [|exact H|exact H0|..]; ss. i. des. subst. ss.
   Qed.
 
   Definition wf_in_access_old (m: SeqMemory.t) (i: option (Loc.t * Const.t * Flag.t * Const.t)): Prop :=
@@ -2221,18 +2222,7 @@ Section ADEQUACY.
 
   Qed.
 
-  Theorem simulation_implies_refinement
-          (st_src: lang_src.(Language.state))
-          (st_tgt: lang_tgt.(Language.state))
-          (SIM: sim_seq_all (fun _ _ => True) st_src st_tgt)
-    :
-      SeqBehavior.refine _ _ st_tgt st_src.
-  Proof.
-    unfold SeqBehavior.refine. i. eapply simulation_implies_refinement_aux. 2: auto.
-    unfold sim_seq_all in SIM. eauto.
-  Qed.
-
-  Theorem refinement_implies_simulation
+  Lemma refinement_implies_simulation_determ
           (st_src: lang_src.(Language.state))
           (st_tgt: lang_tgt.(Language.state))
           (REFINE: SeqBehavior.refine _ _ st_tgt st_src)
@@ -2249,3 +2239,59 @@ Section ADEQUACY.
     ii. exploit REFINE; eauto. i. des. eauto.
   Qed.
 End ADEQUACY.
+
+
+Theorem simulation_implies_refinement lang_src lang_tgt
+        (st_src: lang_src.(Language.state))
+        (st_tgt: lang_tgt.(Language.state))
+        (SIM: sim_seq_all (fun _ _ => True) st_src st_tgt)
+  :
+  SeqBehavior.refine _ _ st_tgt st_src.
+Proof.
+  unfold SeqBehavior.refine. i. eapply simulation_implies_refinement_aux. 2: auto.
+  unfold sim_seq_all in SIM. eauto.
+Qed.
+
+Theorem refinement_implies_simulation lang_src lang_tgt
+        (st_src: lang_src.(Language.state))
+        (st_tgt: lang_tgt.(Language.state))
+        (REFINE: SeqBehavior.refine _ _ st_tgt st_src)
+        (DETERM: deterministic _ st_src)
+        (RECEPTIVE: receptive _ st_tgt)
+        (WF: well_formed_state lang_src st_src)
+  :
+  sim_seq_all (fun _ _ => True) st_src st_tgt.
+Proof.
+  eapply refinement_implies_simulation_determ; auto.
+  { i. inv PR. econs; eauto. inv LOCAL.
+    { econs 1; eauto. }
+    { econs 2; eauto. i. hexploit PERM; auto. i. subst. refl. }
+    { econs 3; eauto. }
+    { econs 4; eauto. }
+    { econs 5; eauto. }
+  }
+  { i. inv STEP0. inv STEP1.
+    punfold DETERM0. inv DETERM0.
+    hexploit STEP_STEP; [eapply LANG|eapply LANG0|..].
+    i. des. inv LOCAL; inv LOCAL0; ss.
+    { hexploit H0; eauto. i. subst. splits; auto. }
+    { des. subst. assert (val = val0).
+      { destruct (p loc0); ss.
+        { rewrite NPERM; auto. rewrite NPERM0; auto. }
+        { rewrite PERM; auto. rewrite PERM0; auto. }
+      }
+      subst. hexploit H0; eauto. i. subst. splits; auto.
+    }
+    { hexploit NO_NA_UPDATE; eauto. i. des.
+      red in ORD0. destruct ordr, ordw; des; ss.
+    }
+    { des. subst. hexploit H0; eauto. i. subst. splits; auto. }
+    { hexploit H0; eauto. i. subst. splits; auto. }
+    { hexploit NO_NA_UPDATE; eauto. i. des.
+      red in ORD. destruct ordr, ordw; des; ss.
+    }
+    { hexploit NO_NA_UPDATE; eauto. i. des. subst.
+      red in ORD. destruct ordr0, ordw0; des; ss.
+    }
+  }
+Qed.

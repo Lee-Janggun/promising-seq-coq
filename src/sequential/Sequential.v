@@ -1342,6 +1342,67 @@ Section LANG.
     :
       na_opt_step p MachineEvent.silent st0 st0
   .
+
+  Variant na_local_step_determ (p: Perms.t):
+    forall (e: MachineEvent.t)
+           (pe: ProgramEvent.t)
+           (m0: SeqMemory.t)
+           (m1: SeqMemory.t), Prop :=
+  | na_local_step_determ_silent
+      m
+    :
+      na_local_step_determ
+        p
+        (MachineEvent.silent) (ProgramEvent.silent)
+        m m
+  | na_local_step_determ_read
+      m
+      loc val ord
+      (ORD: Ordering.le ord Ordering.na)
+      (PERM: Perm.le Perm.high (p loc) -> val = SeqMemory.read loc m)
+      (NPERM: Perm.le (p loc) Perm.low -> val = Const.undef)
+    :
+      na_local_step_determ
+        p
+        (MachineEvent.silent) (ProgramEvent.read loc val ord)
+        m m
+  | na_local_step_determ_write
+      m0 m1 e
+      loc val ord
+      (ORD: Ordering.le ord Ordering.na)
+      (MEM: SeqMemory.write loc val m0 = m1)
+      (PERM: e = if Perm.le Perm.high (p loc) then MachineEvent.silent else MachineEvent.failure)
+    :
+      na_local_step_determ
+        p
+        e (ProgramEvent.write loc val ord)
+        m0 m1
+  | na_local_step_determ_failure
+      m
+    :
+      na_local_step_determ
+        p
+        (MachineEvent.failure) (ProgramEvent.failure)
+        m m
+  | na_local_step_determ_update
+      m
+      loc valr valw ordr ordw
+      (ORD: __guard__(Ordering.le ordr Ordering.na \/ Ordering.le ordw Ordering.na))
+    :
+      na_local_step_determ
+        p
+        (MachineEvent.failure) (ProgramEvent.update loc valr valw ordr ordw)
+        m m
+  .
+
+  Variant na_step_determ (p: Perms.t): MachineEvent.t -> t -> t -> Prop :=
+  | na_step_determ_intro
+      st0 st1 m0 m1 e pe
+      (LANG: lang.(Language.step) pe st0 st1)
+      (LOCAL: na_local_step_determ p e pe m0 m1)
+    :
+      na_step_determ p e (mk st0 m0) (mk st1 m1)
+  .
 End LANG.
 End SeqState.
 
