@@ -116,7 +116,7 @@ Section ADEQUACY.
           (REFINE: SeqBehavior.refine _ _ (lang_tgt.(Language.init) prog_tgt) (lang_src.(Language.init) prog_src))
           (DETERM: deterministic _ (lang_src.(Language.init) prog_src))
           (RECEPTIVE: receptive _ (lang_tgt.(Language.init) prog_tgt))
-          (WF: well_formed_state lang_src (lang_src.(Language.init) prog_src))
+          (MONOTONE: monotone_read_state lang_src (lang_src.(Language.init) prog_src))
           (NOMIX_SRC: nomix loc_na loc_at _ (lang_src.(Language.init) prog_src))
           (NOMIX_TGT: nomix loc_na loc_at _ (lang_tgt.(Language.init) prog_tgt))
           (NOMIX_CTX:

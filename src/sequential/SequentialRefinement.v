@@ -2258,7 +2258,7 @@ Theorem refinement_implies_simulation lang_src lang_tgt
         (REFINE: SeqBehavior.refine _ _ st_tgt st_src)
         (DETERM: deterministic _ st_src)
         (RECEPTIVE: receptive _ st_tgt)
-        (WF: well_formed_state lang_src st_src)
+        (MONOTONE: monotone_read_state lang_src st_src)
   :
   sim_seq_all (fun _ _ => True) st_src st_tgt.
 Proof.

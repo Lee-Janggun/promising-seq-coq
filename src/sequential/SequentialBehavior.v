@@ -227,7 +227,7 @@ Proof.
 Qed.
 
 
-Definition well_formed_state lang (st: lang.(Language.state)): Prop :=
+Definition monotone_read_state lang (st: lang.(Language.state)): Prop :=
   forall p m o (WF: Oracle.wf o),
     SeqBehavior.behavior (@SeqState.na_step _) (SeqThread.mk (SeqState.mk _ st m) p o) <1= SeqBehavior.behavior (@SeqState.na_step_determ _) (SeqThread.mk (SeqState.mk _ st m) p o).
 
