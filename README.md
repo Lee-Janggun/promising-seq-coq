@@ -65,7 +65,7 @@ where `(sigma: lang.(Language.state)) (M: ValueMap.t) (F: Flags.t) (P: Perms.t) 
 
 How the Coq development is different from the paper presentation
 - A racy non-atomic read can read *any* value rather than only the *undef* value. Since any value includes the undef value, two definitions are equivalent.
-- There is no codition `P' <= P` in (REL-WRITE) rule of SEQ. Instead, we use `meet P' P` for a new permission to ensure `P <= meet P' P`.
+- There is no codition `P' <= P` in (REL-WRITE) rule of SEQ. Instead, we use `P'' = meet P' P` for a new permission to ensure `P <= P''`.
 - Similarly, there is a no codition `P <= P'` and `dom(V) = P' \ P` in (ACQ-READ) rule of SEQ. Instead, we use `join P' P` for a new permission and ignore `V(x)` for `x` not in `P' \ P`.
 - There are rules for fences and atomic updates. In that cases, a program takes *all* corresponding effects. For example, when executing an acquire-release fence, it takes a (REL-WRITE) step after an (ACQ-READ) step.
 - SEQ allows atomic operations on non-atomic locations. In that case, the permission and the value of that location are changed, following the rule `SeqEvent.step_update`. For example, when executing a release write, it takes a `SeqEvent.step_release` after `SeqEvent.step_update`
