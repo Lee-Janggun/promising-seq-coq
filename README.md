@@ -58,8 +58,8 @@ Mapping between the new transition rules in the paper (*Figure 4*) and the defin
 Mapping between the transition rules in the paper (*Figure 1*) and the definitions in Coq (`src/sequential/Sequential.v`)
 - <sigma, F, P, M> with an oracle `o` - `SeqThread.mk (SeqState.mk sigma (SeqMemory.mk M F) P o`  
 where `(sigma: lang.(Language.state)) (M: ValueMap.t) (F: Flags.t) (P: Perms.t) (o: Oracle.t)`
-- (NA-READ) and (RACY-NA-READ) - `SeqState.na_local_read_step`
-- (NA-WRITE) and (RACY-NA-WRITE) - `SeqState.na_local_write_step`
+- (NA-READ) and (RACY-NA-READ) - `SeqState.na_local_step_read`
+- (NA-WRITE) and (RACY-NA-WRITE) - `SeqState.na_local_step_write`
 - (ACQ-READ) - `SeqEvent.step_acquire`
 - (REL-WRITE) - `SeqEvent.step_release`
 
