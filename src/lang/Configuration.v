@@ -16,8 +16,7 @@ Require Import Local.
 Require Import Thread.
 
 Set Implicit Arguments.
-Set Printing Universes.
-Set Printing All.
+
 
 
 Module Threads.
