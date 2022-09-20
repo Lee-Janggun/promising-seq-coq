@@ -1,4 +1,4 @@
-COQMODULE    := Promising2
+COQMODULE    := PromisingSEQ
 COQTHEORIES  := \
 	src/lang/*.v \
 	src/itree/*.v \

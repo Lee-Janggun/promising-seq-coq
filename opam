@@ -1,0 +1,27 @@
+opam-version: "2.0"
+name: "coq-promising-seq"
+maintainer: "minki.cho@sf.snu.ac.kr"
+synopsis: "Coq implementation of the Promising-NA semantics and the SEQ model"
+homepage: "https://github.com/snu-sf/promising-seq-coq/"
+dev-repo: "git+https://github.com/snu-sf/promising-seq-coq.git"
+bug-reports: "https://github.com/snu-sf/promising-seq-coq/issues/"
+authors: [
+  "Minki Cho <minki.cho@sf.snu.ac.kr>"
+  "Sung-Hwan Lee <sunghwan.lee@sf.snu.ac.kr>"
+  "Jeehoon Kang <jeehoon.kang@sf.snu.ac.kr>"
+  "Chung-Kil Hur <gil.hur@sf.snu.ac.kr>"
+  "Ori Lahav <ori.lahav@tau.ac.il>"
+  "Viktor Vafeiadis <viktor@mpi-sws.org>"
+  "Derek Dreyer <dreyer@mpi-sws.org>"
+]
+build: [make "-j%{jobs}%" "build"]
+install: [make "-f" "Makefile.coq" "install"]
+remove: ["rm" "-rf" "%{lib}%/coq/user-contrib/PromisingSEQ"]
+depends: [
+  "coq" { (>= "8.15") & (< "8.17") }
+  "coq-sflib" { (= "dev") }
+  "coq-paco" { (>= "4.1.2") }
+  "coq-promising-lib" { (= "dev") }
+  "coq-ext-lib" { (= "dev") }
+  "coq-itree" { (= "4.0.0") }
+]
