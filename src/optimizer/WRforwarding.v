@@ -37,7 +37,7 @@ Section DATA.
       match c1, c2 with
       | Const.undef, Const.undef => Some (c1, orb b1 b2)
       | Const.num n1, Const.num n2 =>
-        (if (PeanoNat.Nat.eqb n1 n2) then Some (c1, orb b1 b2) else None)
+        (if (BinInt.Z.eqb n1 n2) then Some (c1, orb b1 b2) else None)
       | _, _ => None
       end
     | _, _ => None
@@ -47,26 +47,26 @@ Section DATA.
   Lemma meet_comm: forall t1 t2, meet t1 t2 = meet t2 t1.
   Proof.
     i. unfold meet. des_ifs; ss; clarify.
-    - rewrite PeanoNat.Nat.eqb_eq in Heq0. clarify. rewrite Bool.orb_comm. ss.
-    - rewrite PeanoNat.Nat.eqb_eq in Heq. rewrite PeanoNat.Nat.eqb_neq in Heq0. clarify.
-    - rewrite PeanoNat.Nat.eqb_eq in Heq0. rewrite PeanoNat.Nat.eqb_neq in Heq. clarify.
+    - rewrite BinInt.Z.eqb_eq in Heq0. clarify. rewrite Bool.orb_comm. ss.
+    - rewrite BinInt.Z.eqb_eq in Heq. rewrite BinInt.Z.eqb_neq in Heq0. clarify.
+    - rewrite BinInt.Z.eqb_eq in Heq0. rewrite BinInt.Z.eqb_neq in Heq. clarify.
     - rewrite Bool.orb_comm. ss.
   Qed.
 
   Lemma meet_assoc: forall t1 t2 t3, meet t1 (meet t2 t3) = meet (meet t1 t2) t3.
   Proof.
     i. unfold meet. des_ifs; ss; clarify.
-    - rewrite PeanoNat.Nat.eqb_eq in Heq0. clarify. rewrite Bool.orb_assoc. ss.
-    - rewrite PeanoNat.Nat.eqb_eq in Heq0. rewrite PeanoNat.Nat.eqb_eq in Heq1. rewrite PeanoNat.Nat.eqb_neq in Heq2. clarify.
+    - rewrite BinInt.Z.eqb_eq in Heq0. clarify. rewrite Bool.orb_assoc. ss.
+    - rewrite BinInt.Z.eqb_eq in Heq0. rewrite BinInt.Z.eqb_eq in Heq1. rewrite BinInt.Z.eqb_neq in Heq2. clarify.
     - rewrite Bool.orb_assoc. ss.
-    - rewrite PeanoNat.Nat.eqb_eq in Heq1. rewrite PeanoNat.Nat.eqb_eq in Heq2. rewrite PeanoNat.Nat.eqb_neq in Heq0. clarify.
+    - rewrite BinInt.Z.eqb_eq in Heq1. rewrite BinInt.Z.eqb_eq in Heq2. rewrite BinInt.Z.eqb_neq in Heq0. clarify.
   Qed.
 
   Lemma meet_idem: forall t, meet t t = t.
   Proof.
     i. unfold meet. des_ifs; ss; clarify.
     - rewrite Bool.orb_diag. ss.
-    - rewrite PeanoNat.Nat.eqb_neq in Heq. clarify.
+    - rewrite BinInt.Z.eqb_neq in Heq. clarify.
     - rewrite Bool.orb_diag. ss.
   Qed.
 
@@ -82,8 +82,8 @@ Section DATA.
   Lemma le_spec: forall t1 t2, le t1 t2 <-> t1 = (meet t1 t2).
   Proof.
     i. unfold le, meet. des_ifs.
-    - rewrite PeanoNat.Nat.eqb_eq in Heq. clarify. split; i; des; destruct b0; destruct b; ss; auto.
-    - rewrite PeanoNat.Nat.eqb_neq in Heq. split; i; des; exfalso; clarify.
+    - rewrite BinInt.Z.eqb_eq in Heq. clarify. split; i; des; destruct b0; destruct b; ss; auto.
+    - rewrite BinInt.Z.eqb_neq in Heq. split; i; des; exfalso; clarify.
     - split; i; des; exfalso; clarify.
     - split; i; des; exfalso; clarify.
     - split; i; des; destruct b0; destruct b; ss; auto.

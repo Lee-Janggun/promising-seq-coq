@@ -423,13 +423,13 @@ Lemma merge_store_update_cas_sim_itree
       (ORDW: Ordering.le Ordering.plain o):
   sim_itree eq
             (ITree.trigger (MemE.write l v1 o);; ITree.trigger (MemE.update l (MemE.cas v1 v2) or2 o))
-            (ITree.trigger (MemE.write l v2 o);; Ret (Const.of_nat 1)).
+            (ITree.trigger (MemE.write l v2 o);; Ret (Const.of_Z 1)).
 Proof.
   replace (ITree.trigger (MemE.write l v1 o);; ITree.trigger (MemE.update l (MemE.cas v1 v2) or2 o)) with
       (Vis (MemE.write l v1 o) (fun _ => Vis (MemE.update l (MemE.cas v1 v2) or2 o) (fun r => Ret r))).
   2:{ unfold ITree.trigger. grind. repeat f_equal. extensionality r1. grind. }
-  replace (ITree.trigger (MemE.write l v2 o);; Ret (Const.of_nat 1)) with
-      (Vis (MemE.write l v2 o) (fun _ => Ret (Const.of_nat 1))).
+  replace (ITree.trigger (MemE.write l v2 o);; Ret (Const.of_Z 1)) with
+      (Vis (MemE.write l v2 o) (fun _ => Ret (Const.of_Z 1))).
   2:{ unfold ITree.trigger. grind. repeat f_equal. extensionality r1. grind. }
   pcofix CIH. ii. subst. pfold. ii. splits; ii.
   { right. inv TERMINAL_TGT. apply f_equal with (f:=observe) in H; ss. }

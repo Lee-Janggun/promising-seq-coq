@@ -435,3 +435,5 @@ Lemma idK_spec E R (i0: itree E R): i0 = i0 >>= idK. Proof. unfold idK. irw. ref
 (*     + intros ? _ []. ired. des_ifs. ss. clarify. *)
 (*       ired. cbn. gstep. econs; eauto with paco. gstep. econs; eauto with paco. *)
 (* Qed. *)
+
+Require Import BinNums. Coercion BinIntDef.Z.of_nat: nat >-> Z.

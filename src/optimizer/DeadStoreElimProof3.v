@@ -1037,7 +1037,7 @@ Section PARTIAL.
               2:{ econs 5. unfold __guard__. left; eauto. }
               rewrite bind_trigger. econs; eauto. econs 2; eauto.
               instantiate (1:=old). destruct old; ss. des_ifs.
-              rewrite PeanoNat.Nat.eqb_refl. ss.
+              rewrite BinInt.Z.eqb_refl. ss.
           + esplits. econs 1. econs 1. right. econs. econs. econs.
             2:{ econs 5. unfold __guard__. left; eauto. }
             rewrite bind_trigger. econs; eauto. econs 2; eauto. rewrite CASE. ss.
