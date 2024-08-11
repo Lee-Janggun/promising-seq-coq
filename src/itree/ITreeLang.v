@@ -495,13 +495,10 @@ Section Denote.
   Definition denote_exprs (le: lenv) (es : list Inst.expr) : list Const.t :=
     List.map (denote_expr le) es.
 
-  Context {eff : Type -> Type}.
-  Context {HasMemE : MemE.t -< eff}.
-
   Definition lunit := (prod lenv unit).
 
   (** Denotation of instructions *)
-  Definition denote_inst (le: lenv) (i : Inst.t) : itree eff lunit :=
+  Definition denote_inst (le: lenv) (i : Inst.t) : itree MemE.t lunit :=
     match i with
     | Inst.skip =>
       tau;; Ret (le, tt)
@@ -543,10 +540,10 @@ Section Denote.
   Definition is_zero (v : Const.t) : option bool :=
     Const.eqb v Const.zero.
 
-  Definition while_itree (le: lenv) (step: lunit -> itree eff (lunit + lunit)) : itree eff lunit :=
+  Definition while_itree (le: lenv) (step: lunit -> itree MemE.t (lunit + lunit)) : itree MemE.t lunit :=
     ITree.iter step (le, tt).
 
-  Fixpoint denote_stmt (le: lenv) (s : stmt) : itree eff lunit :=
+  Fixpoint denote_stmt (le: lenv) (s : stmt) : itree MemE.t lunit :=
     match s with
     | inst i => denote_inst le i
 
@@ -575,7 +572,7 @@ Section Denote.
             end))
 
     end
-  with denote_block (le: lenv) (b: block) : itree eff lunit :=
+  with denote_block (le: lenv) (b: block) : itree MemE.t lunit :=
          match b with
          | nil => Ret (le, tt)
          | cons s blk => '(le1, _) <- denote_stmt le s;; denote_block le1 blk
@@ -590,7 +587,7 @@ Section Interp.
 
   Definition effs := MemE.t.
 
-  Definition itr_code (blk: block) (le: lenv) :=
+  Definition itr_code (blk: block) (le: lenv) : itree MemE.t Const.t :=
     '(le1, _) <- (denote_block le blk);; Ret (le1 ret_reg).
 
   Definition eval_lang (body: block) : itree MemE.t Const.t :=

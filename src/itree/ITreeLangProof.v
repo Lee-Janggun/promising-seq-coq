@@ -140,10 +140,10 @@ Section Proof.
       '(l1, _) <- (denote_block l0 b1);; (denote_block l1 b2).
   Proof.
     do 3 revert1. induction b1 using block_ind2; i.
-    - ss. rewrite denote_block_nil. grind.
-    - ss. rewrite ! denote_block_cons. grind.
-    - ss. rewrite ! denote_block_cons. grind.
-    - ss. rewrite ! denote_block_cons. grind.
+    - ss. try rewrite denote_block_nil. grind.
+    - ss. try rewrite ! denote_block_cons. grind.
+    - ss. try rewrite ! denote_block_cons. grind.
+    - ss. try rewrite ! denote_block_cons. grind.
   Qed.
 
   Lemma denote_stmt_ite
@@ -219,7 +219,7 @@ Section Proof.
              | inr r => Ret r
              end).
   Proof.
-    ss. rewrite unfold_denote_while.
+    ss. try rewrite unfold_denote_while.
     unfold while_itree.
     match goal with
     | [|- ITree.iter ?f ?i = _ ] =>
@@ -247,7 +247,7 @@ Section Proof.
                         end)
     end.
     { eapply ext_bind; ss.
-      i. destruct x; ss. rewrite unfold_denote_while. unfold while_itree. grind.
+      i. destruct x; ss. try rewrite unfold_denote_while. unfold while_itree. grind.
       f_equal. destruct p. destruct u. ss.
     }
     rewrite A; clear A. eapply ext_bind; eauto.

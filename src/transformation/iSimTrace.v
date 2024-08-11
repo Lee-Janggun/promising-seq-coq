@@ -581,20 +581,20 @@ Proof.
   - pclearbot. gstep. econs.
     { ii. inv TERMINAL_TGT. apply f_equal with (f:=observe) in H; ss. }
     ii. ss. dependent destruction STEP_TGT.
-    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto]; econs; eauto.
-    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto]; econs; eauto.
-    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto]; econs; eauto.
-    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto]; econs; eauto.
-    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto]; econs; eauto.
-    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto]; econs; eauto.
-    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto]; econs; eauto.
+    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto with itree]; econs; eauto.
+    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto with itree]; econs; eauto.
+    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto with itree]; econs; eauto.
+    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto with itree]; econs; eauto.
+    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto with itree]; econs; eauto.
+    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto with itree]; econs; eauto.
+    + right. esplits; [econs; refl|eauto|econs 2|gbase; apply CIH; eauto with itree]; econs; eauto.
     + left. econs. esplits; eauto. econs.
   - guclo tauF_l_uclo. econs; eauto. econs. eapply bisim_is_eq. symmetry. eapply itree_eta.
   - gstep. econs.
     { ii. inv TERMINAL_TGT. apply f_equal with (f:=observe) in H; ss. }
     ii. ss. right.
     dependent destruction STEP_TGT.
-    esplits; [econs; refl|eauto|econs 1|]. gbase. eauto.
+    esplits; [econs; refl|eauto|econs 1|]. gbase. eauto with itree.
   Unshelve. all: try exact ITree.spin.
 Qed.
 

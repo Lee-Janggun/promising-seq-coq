@@ -2093,7 +2093,7 @@ Proof.
     }
     { red in FIN. des. exists (loc::dom). ii. split; i.
       { des. des_ifs; ss; auto. right. eapply DOM. eauto. }
-      { des_ifs; eauto. eapply DOM. ss. des; ss. intuition. }
+      { des_ifs; eauto. eapply DOM. ss. des; ss. intuition auto with *. }
     }
     { eapply sim_closed_memory_future; eauto.
       eapply Memory.future_future_weak. etrans; eauto.
@@ -4250,7 +4250,7 @@ Proof.
       i. red in FLAG. des; ss.
     }
     { i. ss. des_ifs.
-      eapply FIN in FLAG0. des; ss. intuition.
+      eapply FIN in FLAG0. des; ss. intuition auto with *.
     }
     i. des. esplits.
     { etrans; eauto. }

@@ -1509,7 +1509,7 @@ Proof.
             { red in SIM1. des. eauto. }
             { red in SIM1. des. eauto. }
             { eapply CLOSEDFUTURE; eauto; ss. ii. subst.
-              inv EVENT. intuition.
+              inv EVENT. intuition auto with *.
             }
           }
         }

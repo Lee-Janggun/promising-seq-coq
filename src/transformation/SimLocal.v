@@ -255,7 +255,7 @@ Lemma sim_local_fulfill_bot
     <<SC2: TimeMap.le sc2_src sc2_tgt>>.
 Proof.
   exploit sim_local_fulfill; eauto.
-  { rewrite SimPromises.bot_spec. intuition. }
+  { rewrite SimPromises.bot_spec. intuition auto with *. }
   i. des. esplits; eauto.
   rewrite SimPromises.unset_bot in *; ss.
 Qed.
@@ -320,7 +320,7 @@ Proof.
   exploit sim_local_fulfill; try apply STEP2;
     try apply LOCAL2; try apply MEM2; eauto.
   { eapply Memory.future_closed_opt_view; eauto. }
-  { unguardH PVIEW. des; intuition.
+  { unguardH PVIEW. des; intuition auto with *.
     exploit Local.write_step_strong_relaxed; eauto. i.
     left. eapply sim_local_promise_not_lower; try exact STEP1; eauto.
   }
@@ -367,7 +367,7 @@ Lemma sim_local_write_bot
     <<MEM2: sim_memory mem2_src mem2_tgt>>.
 Proof.
   hexploit sim_local_write; eauto.
-  { rewrite SimPromises.bot_spec. intuition. }
+  { rewrite SimPromises.bot_spec. intuition auto with *. }
   i. des. esplits; eauto.
   - rewrite SimPromises.kind_transf_bot in *. eauto.
   - rewrite SimPromises.unset_bot in *; ss.

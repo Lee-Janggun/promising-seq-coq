@@ -146,7 +146,7 @@ Section ADEQUACY.
        end).
     split.
     { split; i; des_ifs; des; ss; eauto. inv H. ss. }
-    { des_ifs; destruct o; try by intuition.
+    { des_ifs; destruct o; try by intuition auto with *.
       - esplits. econs; eauto. econs.
       - esplits. econs.
     }
@@ -162,7 +162,7 @@ Section ADEQUACY.
     exists (if is_acquire e then Some m1.(SeqMemory.flags) else None).
     split.
     { split; i; des_ifs; des; ss; eauto. }
-    { des_ifs; destruct o as [[]|]; try by intuition.
+    { des_ifs; destruct o as [[]|]; try by intuition auto with *.
       - esplits. econs; eauto. econs.
       - esplits. econs.
     }
@@ -178,7 +178,7 @@ Section ADEQUACY.
     exists (if is_release e then Some (m1.(SeqMemory.value_map), m1.(SeqMemory.flags)) else None).
     split.
     { split; i; des_ifs; des; ss; eauto. }
-    { des_ifs; destruct o; try by intuition.
+    { des_ifs; destruct o; try by intuition auto with *.
       - esplits. econs; eauto. econs.
       - esplits. econs.
     }
@@ -781,8 +781,8 @@ Section ADEQUACY.
       + specialize (H t t0). des. exploit H5; eauto. intros x. des. inv x.
         inv MEM. ss.
       + specialize (H loc v_new). des. exploit H; eauto. i. ss.
-    - inv ACQ; ss; condtac; ss; intuition.
-    - inv REL; ss; condtac; ss; intuition.
+    - inv ACQ; ss; condtac; ss; intuition auto with *.
+    - inv REL; ss; condtac; ss; intuition auto with *.
   Qed.
 
   Lemma steps_behavior_at_step
@@ -1903,14 +1903,14 @@ Section ADEQUACY.
             exploit le_is_acquire; try exact LE'. i.
             inv ACQUIRE.
             + destruct in_acquire, in_acquire0, (is_acquire e_src), (is_acquire e_tgt),
-              (is_acquire e_src'), (is_acquire e_tgt'); intuition.
+              (is_acquire e_src'), (is_acquire e_tgt'); intuition auto with *.
               econs. ss.
             + destruct in_acquire, in_acquire0, (is_acquire e_src), (is_acquire e_tgt),
-              (is_acquire e_src'), (is_acquire e_tgt'); intuition.
+              (is_acquire e_src'), (is_acquire e_tgt'); intuition auto with *.
           - clear ACCESS ACQUIRE H H1 H0 H5 H4 H8 H7 H11.
             exploit le_is_release; try exact EVENT. i.
             rewrite <- H12 in x0. rewrite <- H9 in x0.
-            destruct in_release, in_release0; try by intuition.
+            destruct in_release, in_release0; try by intuition auto with *.
             + destruct p, p0. econs; ss.
               rewrite Flags.join_top_r. apply Flags.top_spec.
             + econs. apply Flags.top_spec.

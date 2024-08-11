@@ -205,8 +205,8 @@ Lemma sim_store_sim_thread R:
 Proof.
   pcofix CIH. i. pfold. ii. ss. splits; ss; ii.
   - inv TERMINAL_TGT. inv PR; ss.
-  - exploit sim_store_mon; eauto. i.
-    dup x0. dependent destruction x1. subst.
+  - exploit sim_store_mon; eauto. intros SIMSTORE.
+    dup SIMSTORE. dependent destruction SIMSTORE0. subst.
     exploit (progress_program_step_non_update i2 (fun r => Ret (tt, r))); eauto.
     { dependent destruction PR; inv REORDER0; ss. }
     i. des.

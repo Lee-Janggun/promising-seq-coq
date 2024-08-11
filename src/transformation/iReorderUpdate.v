@@ -416,8 +416,8 @@ Lemma sim_update_sim_thread R:
 Proof.
   pcofix CIH. i. pfold. ii. ss. splits; ss; ii.
   - inv TERMINAL_TGT. inv PR; ss.
-  - exploit sim_update_mon; eauto. i.
-    dup x0. dependent destruction x1.
+  - exploit sim_update_mon; eauto. intros SIMUPD.
+    dup SIMUPD. dependent destruction SIMUPD0.
     { exploit (progress_program_step_non_update
                  i2
                  (fun r => Ret (vret1, r))); eauto.

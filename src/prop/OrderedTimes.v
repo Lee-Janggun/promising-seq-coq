@@ -244,7 +244,7 @@ Proof.
     exfalso. eapply Time.lt_strorder. eapply TimeFacts.le_lt_lt.
     { eapply LB. eapply SAT. } eapply TimeFacts.lt_le_lt.
     { eapply LT. }
-    { eapply Lt.le_lt_or_eq in l. des.
+    { eapply PeanoNat.Nat.lt_eq_cases in l. des.
       { left. eapply MON; eauto. }
       { subst. refl. }
     }
@@ -266,7 +266,7 @@ Proof.
     { eapply LB. eapply SAT1. } eapply TimeFacts.lt_le_lt.
     { eapply l. } etrans.
     { left. eapply LT. }
-    { eapply Lt.le_lt_or_eq in l0. des.
+    { eapply PeanoNat.Nat.lt_eq_cases in l0. des.
       { left. eapply MON; eauto. }
       { subst. refl. }
     }
