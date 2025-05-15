@@ -5480,7 +5480,7 @@ Lemma version_wf_join f v0 v1
     version_wf f (version_join v0 v1).
 Proof.
   ii. unfold version_join.
-  destruct (Max.max_dec (v0 loc) (v1 loc)).
+  destruct (PeanoNat.Nat.max_dec (v0 loc) (v1 loc)).
   { rewrite e. auto. }
   { rewrite e. auto. }
 Qed.
