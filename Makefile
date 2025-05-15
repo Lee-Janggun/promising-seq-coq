@@ -13,13 +13,13 @@ COQTHEORIES  := \
 
 .PHONY: all theories clean
 
-all: quick
+all: build
 
 build: Makefile.coq
 	$(MAKE) -f Makefile.coq all
 
 quick: Makefile.coq
-	$(MAKE) -f Makefile.coq quick
+	$(MAKE) -f Makefile.coq vio
 
 Makefile.coq: Makefile $(COQTHEORIES)
 	(echo "-R src/lang $(COQMODULE)"; \
