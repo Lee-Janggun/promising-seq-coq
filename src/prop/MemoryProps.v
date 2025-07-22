@@ -3554,7 +3554,7 @@ Section PROMISED.
       else promised mem1 loc'.
   Proof.
     extensionality loc'. extensionality ts'.
-    apply Coq.Logic.PropExtensionality.propositional_extensionality.
+    apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
     split; i.
     - inv H. destruct msg0. erewrite Memory.add_o in GET; eauto.
       des_ifs.
@@ -3582,7 +3582,7 @@ Section PROMISED.
         else concrete_promised mem1 loc'.
   Proof.
     extensionality loc'. extensionality ts'.
-    apply Coq.Logic.PropExtensionality.propositional_extensionality.
+    apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
     split; i.
     - inv H. erewrite Memory.add_o in GET; eauto.
       des_ifs; ss; try by (des; clarify).
@@ -3602,7 +3602,7 @@ Section PROMISED.
       promised mem2 = promised mem1.
   Proof.
     extensionality loc'. extensionality ts'.
-    apply Coq.Logic.PropExtensionality.propositional_extensionality.
+    apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
     split; i.
     - inv H. destruct msg. erewrite Memory.lower_o in GET; eauto. des_ifs.
       + ss. des; clarify. econs. eapply (Memory.lower_get0 LOWER); eauto.
@@ -3617,7 +3617,7 @@ Section PROMISED.
       concrete_promised mem2 = concrete_promised mem1.
   Proof.
     extensionality loc'. extensionality ts'.
-    apply Coq.Logic.PropExtensionality.propositional_extensionality.
+    apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
     split; i.
     - inv H. erewrite Memory.lower_o in GET; eauto. des_ifs.
       + ss. des; clarify.
@@ -3638,7 +3638,7 @@ Section PROMISED.
         else promised mem1 loc'.
   Proof.
     extensionality loc'. extensionality ts'.
-    apply Coq.Logic.PropExtensionality.propositional_extensionality.
+    apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
     split; i.
     - inv H. destruct msg. erewrite Memory.split_o in GET; eauto.
       des_ifs; try by (des; ss; clarify).
@@ -3665,7 +3665,7 @@ Section PROMISED.
         else concrete_promised mem1 loc'.
   Proof.
     extensionality loc'. extensionality ts'.
-    apply Coq.Logic.PropExtensionality.propositional_extensionality.
+    apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
     split; i.
     - inv H. erewrite Memory.split_o in GET; eauto.
       des_ifs; try by (des; ss; clarify).
@@ -3690,7 +3690,7 @@ Section PROMISED.
         else promised mem1 loc'.
   Proof.
     extensionality loc'. extensionality ts'.
-    apply Coq.Logic.PropExtensionality.propositional_extensionality.
+    apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
     split; i.
     - inv H. destruct msg0. erewrite Memory.remove_o in GET; eauto.
       des_ifs; try by (des; ss; clarify).
@@ -3709,7 +3709,7 @@ Section PROMISED.
       concrete_promised mem2 = concrete_promised mem1.
   Proof.
     extensionality loc'. extensionality ts'.
-    apply Coq.Logic.PropExtensionality.propositional_extensionality.
+    apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
     split; i.
     - inv H. erewrite Memory.remove_o in GET; eauto.
       des_ifs; try by (des; ss; clarify). econs; eauto.
@@ -4569,7 +4569,7 @@ Section FINALIZED.
       fin \4/ committed mem prom mem prom = fin.
   Proof.
     extensionality loc. extensionality to. extensionality from. extensionality msg.
-    eapply Coq.Logic.PropExtensionality.propositional_extensionality.
+    eapply Stdlib.Logic.PropExtensionality.propositional_extensionality.
     split; auto. i. des; auto.
     exfalso. inv H. ss.
   Qed.
@@ -4586,7 +4586,7 @@ Section FINALIZED.
                (Thread.memory e3) (Local.promises (Thread.local e3))).
   Proof.
     extensionality loc. extensionality to. extensionality from. extensionality msg.
-    eapply Coq.Logic.PropExtensionality.propositional_extensionality.
+    eapply Stdlib.Logic.PropExtensionality.propositional_extensionality.
     split; i; des.
     { inv H.
       destruct (classic (unchangable (Thread.memory e2) (Local.promises (Thread.local e2))

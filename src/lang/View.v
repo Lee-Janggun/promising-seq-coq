@@ -1,6 +1,6 @@
 Require Import Lia.
 Require Import RelationClasses.
-Require Import Coq.Lists.ListDec Decidable.
+Require Import Stdlib.Lists.ListDec Decidable.
 
 From sflib Require Import sflib.
 From Paco Require Import paco.

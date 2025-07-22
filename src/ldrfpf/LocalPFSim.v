@@ -916,7 +916,7 @@ Section SIM.
     replace (all_promises (fun tid' => tid <> tid') prom \\2// prom tid) with
         (all_promises (fun _ => True) prom); cycle 1.
     { extensionality loc. extensionality ts.
-      apply Coq.Logic.PropExtensionality.propositional_extensionality. split; i.
+      apply Stdlib.Logic.PropExtensionality.propositional_extensionality. split; i.
       { inv H. destruct (Ident.eq_dec tid tid0).
         { subst. right. auto. }
         { left. econs; eauto. }
@@ -929,7 +929,7 @@ Section SIM.
     replace (all_extra (fun tid' => tid <> tid') extra \\3// extra tid) with
         (all_extra (fun _ => True) extra); cycle 1.
     { extensionality loc. extensionality ts. extensionality from.
-      apply Coq.Logic.PropExtensionality.propositional_extensionality. split; i.
+      apply Stdlib.Logic.PropExtensionality.propositional_extensionality. split; i.
       { inv H. destruct (Ident.eq_dec tid tid0).
         { subst. right. auto. }
         { left. econs; eauto. }
@@ -1346,7 +1346,7 @@ Section SIM.
         with
           (all_promises (fun tid' => tid <> tid') prom \\2// prom_self); cycle 1.
       { extensionality loc. extensionality ts.
-        apply Coq.Logic.PropExtensionality.propositional_extensionality. split; i.
+        apply Stdlib.Logic.PropExtensionality.propositional_extensionality. split; i.
         { destruct H.
           { inv H. eapply all_promises_intro with (tid:=tid0); ss. des_ifs. }
           { eapply all_promises_intro with (tid:=tid); ss. des_ifs. }
@@ -1359,7 +1359,7 @@ Section SIM.
         with
           (all_extra (fun tid' => tid <> tid') extra \\3// extra_self); cycle 1.
       { extensionality loc. extensionality ts. extensionality from.
-        apply Coq.Logic.PropExtensionality.propositional_extensionality. split; i.
+        apply Stdlib.Logic.PropExtensionality.propositional_extensionality. split; i.
         { destruct H.
           { inv H. eapply all_extra_intro with (tid:=tid0); ss. des_ifs. }
           { eapply all_extra_intro with (tid:=tid); ss. des_ifs. }
@@ -2094,14 +2094,14 @@ Section SIM.
     unfold option_rel in *. des_ifs. inv THSPF. dep_inv THSJOIN. inv LOCAL. inv LOCAL0.
     split.
     { red. extensionality loc. extensionality ts.
-      apply Coq.Logic.PropExtensionality.propositional_extensionality. split; i; ss.
+      apply Stdlib.Logic.PropExtensionality.propositional_extensionality. split; i; ss.
       set (CNT:=(sim_promise_contents PROMS) loc ts). inv CNT; ss.
       specialize (PROMISES loc ts). rewrite <- H2 in *. inv PROMISES; ss.
       { erewrite Memory.bot_get in *. clarify. }
       { erewrite Memory.bot_get in *. clarify. }
     }
     { red. extensionality loc. extensionality ts. extensionality from.
-      apply Coq.Logic.PropExtensionality.propositional_extensionality. split; i; ss.
+      apply Stdlib.Logic.PropExtensionality.propositional_extensionality. split; i; ss.
       eapply (sim_promise_wf PROMS) in H. des.
       set (CNT:=(sim_promise_contents PROMS) loc from). inv CNT; ss.
       specialize (PROMISES loc from). rewrite <- H in *. inv PROMISES; ss.
@@ -2303,11 +2303,11 @@ Section SIM.
         rewrite TIDTGT in *. unfold option_rel in *. des_ifs. eauto. }
       i. des. esplits; eauto.
       extensionality loc. extensionality ts. extensionality from.
-      apply Coq.Logic.PropExtensionality.propositional_extensionality.
+      apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
       split; i; ss. eapply EXTRA; eauto.
     }
     { extensionality loc. extensionality ts. extensionality from.
-      apply Coq.Logic.PropExtensionality.propositional_extensionality. split; i; ss.
+      apply Stdlib.Logic.PropExtensionality.propositional_extensionality. split; i; ss.
       inv SIM. specialize (THSPF tid). specialize (THSJOIN tid). ss.
       rewrite TIDTGT in *. unfold option_rel in *. des_ifs. inv THSPF.
       inv LOCAL. eapply PROMS in H. des. eapply PROMBOT in FORGET. ss. }
@@ -2329,16 +2329,16 @@ Section SIM.
         rewrite TIDTGT in *. unfold option_rel in *. des_ifs. eauto. }
       i. des. esplits; eauto.
       { extensionality loc. extensionality ts.
-        apply Coq.Logic.PropExtensionality.propositional_extensionality.
+        apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
         split; i; ss. eapply PROM; eauto. }
       { extensionality loc. extensionality ts. extensionality from.
-        apply Coq.Logic.PropExtensionality.propositional_extensionality.
+        apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
         split; i; ss. eapply EXTRA; eauto. }
     }
     { assert (PROM: prom tid = bot2).
       { inv SIM. dup TIDTGT. eapply CONSISTENT in TIDTGT; eauto.
         extensionality loc. extensionality ts.
-        apply Coq.Logic.PropExtensionality.propositional_extensionality. split; i; ss.
+        apply Stdlib.Logic.PropExtensionality.propositional_extensionality. split; i; ss.
         eapply CONSISTENT in H; eauto. rewrite NIL in *. des; ss. }
       splits; auto.
       eapply sim_configuration_promises_forget_bot; eauto.
@@ -2393,7 +2393,7 @@ Section SIM.
       destruct (IdentMap.find tid (Configuration.threads c_tgt0)) as [[[lang_tgt st_tgt] lc_tgt]|] eqn:TIDTGT.
       { assert (PROMBOT: prom_self = bot2).
         { extensionality loc. extensionality ts.
-          apply Coq.Logic.PropExtensionality.propositional_extensionality. split; i; ss.
+          apply Stdlib.Logic.PropExtensionality.propositional_extensionality. split; i; ss.
           exploit DECR; eauto. i.
           inv SIM. hexploit CONSISTENT; eauto. i.
           hexploit (pi_consistent_promises H0); eauto. i.
@@ -2407,7 +2407,7 @@ Section SIM.
             rewrite TIDTGT in *. unfold option_rel in *. des_ifs.
             eapply BOT in Heq0. des.
             extensionality loc. extensionality ts.
-            apply Coq.Logic.PropExtensionality.propositional_extensionality. split; i; ss.
+            apply Stdlib.Logic.PropExtensionality.propositional_extensionality. split; i; ss.
             eapply PROM. des_ifs; eauto.
           }
         }
@@ -2583,7 +2583,7 @@ Section SIM.
           { erewrite List.filter_In in i. des. des_ifs. }
           { erewrite List.filter_In in n. apply not_and_or in n. des_ifs. des; ss.
             extensionality loc. extensionality ts.
-            apply Coq.Logic.PropExtensionality.propositional_extensionality.
+            apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
             split; i; ss. eapply n.
             eapply sim_configuration_forget_promise_exist in H; eauto. des.
             eapply IdentMap.elements_correct in TID.

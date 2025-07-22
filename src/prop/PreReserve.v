@@ -125,7 +125,7 @@ Section UNATTACHABLE.
   Proof.
     extensionality loc0. extensionality ts0.
     exploit Memory.lower_get0; eauto. i. des.
-    apply Coq.Logic.PropExtensionality.propositional_extensionality. split; i.
+    apply Stdlib.Logic.PropExtensionality.propositional_extensionality. split; i.
     { inv H. erewrite Memory.lower_o in MSG; eauto. des_ifs.
       { ss. des; clarify. econs; eauto. }
       { econs; eauto. }
@@ -141,7 +141,7 @@ Section UNATTACHABLE.
     extensionality loc0. extensionality ts0.
     exploit split_succeed_wf; eauto. i. des.
     exploit Memory.split_get0; eauto. i. des.
-    apply Coq.Logic.PropExtensionality.propositional_extensionality. split; i.
+    apply Stdlib.Logic.PropExtensionality.propositional_extensionality. split; i.
     { inv H. erewrite Memory.split_o in MSG; eauto. des_ifs.
       { ss. des; clarify. econs; eauto. }
       { ss. des; clarify. econs; eauto. etrans; eauto. left. auto. }
@@ -168,7 +168,7 @@ Section UNATTACHABLE.
     extensionality loc0. extensionality ts0.
     exploit add_succeed_wf; eauto. i.  des.
     exploit Memory.add_get0; eauto. i. des.
-    apply Coq.Logic.PropExtensionality.propositional_extensionality. split; i.
+    apply Stdlib.Logic.PropExtensionality.propositional_extensionality. split; i.
     { inv H. erewrite Memory.add_o in MSG; eauto. des_ifs.
       { ss. des; clarify. right. splits; auto. }
       { left. econs; eauto. }

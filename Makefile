@@ -22,7 +22,9 @@ quick: Makefile.coq
 	$(MAKE) -f Makefile.coq vio
 
 Makefile.coq: Makefile $(COQTHEORIES)
-	(echo "-R src/lang $(COQMODULE)"; \
+	(echo "-arg -w -arg -notation-incompatible-prefix"; \
+	 echo "-arg -w -arg -deprecated-missing-stdlib"; \
+	 echo "-R src/lang $(COQMODULE)"; \
    echo "-R src/itree $(COQMODULE)"; \
    echo "-R src/prop $(COQMODULE)"; \
    echo "-R src/transformation $(COQMODULE)"; \

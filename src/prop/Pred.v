@@ -1,6 +1,6 @@
 Require Import Lia.
 Require Import RelationClasses.
-Require Import Coq.Logic.Classical.
+Require Import Stdlib.Logic.Classical.
 
 From Paco Require Import paco.
 From sflib Require Import sflib.

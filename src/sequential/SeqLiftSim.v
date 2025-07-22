@@ -65,7 +65,7 @@ Proof.
   extensionality from.
   extensionality to.
   extensionality msg.
-  apply Coq.Logic.PropExtensionality.propositional_extensionality.
+  apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
   split; i.
   { inv H. ss. unfold Memory.init, Memory.get in GET.
     rewrite Cell.init_get in GET. des_ifs. }
@@ -3313,7 +3313,7 @@ Section LIFT.
   Proof.
     assert (UPACO: upaco7 _sim_seq bot7 = sim_seq).
     { repeat (let x := fresh "x" in extensionality x).
-      apply Coq.Logic.PropExtensionality.propositional_extensionality.
+      apply Stdlib.Logic.PropExtensionality.propositional_extensionality.
       split; auto. i. pclearbot. auto.
     }
     pcofix CIH. i. pfold. ii.
